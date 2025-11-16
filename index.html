@@ -1,0 +1,2275 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Amazon Money investiment</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1976D2 0%, #0D47A1 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 500px;
+        }
+
+        .form-container {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 15px 35px rgba(13, 71, 161, 0.2);
+            padding: 40px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .logo {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .logo h1 {
+            color: #1976D2;
+            font-size: 28px;
+            margin-bottom: 5px;
+        }
+
+        .logo p {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .form {
+            display: none;
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        .form.active {
+            display: block;
+        }
+
+        .dashboard {
+            display: none;
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        .dashboard.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 30px;
+            color: #1976D2;
+            font-size: 24px;
+        }
+
+        h3 {
+            margin-bottom: 20px;
+            color: #1976D2;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #555;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 14px;
+            border: 2px solid #e1e1e1;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: all 0.3s;
+        }
+
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: #1976D2;
+            box-shadow: 0 0 0 3px rgba(25, 118, 210, 0.1);
+        }
+
+        .phone-input {
+            display: flex;
+            align-items: center;
+        }
+
+        .prefix {
+            background: #f8f9fa;
+            padding: 14px 15px;
+            border: 2px solid #e1e1e1;
+            border-right: none;
+            border-radius: 8px 0 0 8px;
+            color: #495057;
+            font-weight: bold;
+            font-size: 16px;
+        }
+
+        .phone-input input {
+            border-radius: 0 8px 8px 0;
+            border-left: none;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, #1976D2 0%, #0D47A1 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            margin-top: 10px;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 7px 14px rgba(25, 118, 210, 0.3);
+        }
+
+        .btn:active {
+            transform: translateY(0);
+        }
+
+        .btn-secondary {
+            background: linear-gradient(135deg, #6c757d 0%, #495057 100%);
+        }
+
+        .btn-success {
+            background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+        }
+
+        .btn-warning {
+            background: linear-gradient(135deg, #ffc107 0%, #fd7e14 100%);
+        }
+
+        .btn-info {
+            background: linear-gradient(135deg, #17a2b8 0%, #138496 100%);
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #2196F3 0%, #1976D2 100%);
+        }
+
+        .btn-danger {
+            background: linear-gradient(135deg, #dc3545 0%, #c82333 100%);
+        }
+
+        .switch-form {
+            text-align: center;
+            margin-top: 25px;
+            color: #666;
+            font-size: 14px;
+        }
+
+        .switch-form a {
+            color: #1976D2;
+            text-decoration: none;
+            font-weight: 600;
+            margin-left: 5px;
+            transition: color 0.2s;
+        }
+
+        .switch-form a:hover {
+            color: #0D47A1;
+            text-decoration: underline;
+        }
+
+        /* Carteira - Tema Azul */
+        .wallet-card {
+            background: linear-gradient(135deg, #1976D2 0%, #0D47A1 100%);
+            color: white;
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 25px;
+            box-shadow: 0 10px 25px rgba(25, 118, 210, 0.3);
+        }
+
+        .wallet-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .wallet-title {
+            font-size: 16px;
+            opacity: 0.9;
+        }
+
+        .wallet-balance {
+            font-size: 32px;
+            font-weight: bold;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
+        .wallet-number {
+            font-size: 14px;
+            opacity: 0.8;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .wallet-actions {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .wallet-btn {
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            border-radius: 8px;
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            backdrop-filter: blur(10px);
+            font-size: 14px;
+        }
+
+        .wallet-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+        }
+
+        /* Referência - Tema Azul */
+        .referral-section {
+            background: linear-gradient(135deg, #2196F3 0%, #1976D2 100%);
+            color: white;
+            border-radius: 15px;
+            padding: 20px;
+            margin: 20px 0;
+            text-align: center;
+        }
+
+        .referral-code {
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            padding: 15px;
+            margin: 15px 0;
+            font-family: monospace;
+            font-size: 18px;
+            font-weight: bold;
+            letter-spacing: 2px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .referral-code:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: scale(1.05);
+        }
+
+        .referral-stats {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin: 15px 0;
+        }
+
+        .referral-stat {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            padding: 10px;
+        }
+
+        .referral-stat-number {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .referral-stat-label {
+            font-size: 12px;
+            opacity: 0.9;
+        }
+
+        /* Mineração */
+        .mining-section {
+            margin: 25px 0;
+        }
+
+        .mining-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .mining-machines {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .mining-machine {
+            background: #f8f9fa;
+            border: 2px solid #e1e1e1;
+            border-radius: 10px;
+            padding: 20px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .mining-machine:hover {
+            border-color: #1976D2;
+            transform: translateY(-2px);
+        }
+
+        .mining-machine.active {
+            border-color: #1976D2;
+            background: #e3f2fd;
+        }
+
+        .machine-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .machine-name {
+            font-weight: bold;
+            color: #1976D2;
+            font-size: 16px;
+        }
+
+        .machine-cost {
+            font-weight: bold;
+            color: #dc3545;
+        }
+
+        .machine-details {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            font-size: 14px;
+            color: #666;
+        }
+
+        .machine-detail {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .machine-profit {
+            color: #28a745;
+            font-weight: bold;
+        }
+
+        .active-mining {
+            background: #e3f2fd;
+            border: 2px solid #1976D2;
+            border-radius: 10px;
+            padding: 15px;
+            margin: 15px 0;
+        }
+
+        .mining-progress {
+            background: #e9ecef;
+            border-radius: 10px;
+            height: 10px;
+            margin: 10px 0;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            background: linear-gradient(135deg, #1976D2 0%, #2196F3 100%);
+            height: 100%;
+            transition: width 0.3s;
+        }
+
+        .mining-stats {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            font-size: 14px;
+        }
+
+        /* Transações */
+        .transactions {
+            margin-top: 25px;
+        }
+
+        .transactions h3 {
+            margin-bottom: 15px;
+            color: #1976D2;
+        }
+
+        .transaction-list {
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        .transaction-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            border-bottom: 1px solid #e1e1e1;
+            transition: background-color 0.2s;
+        }
+
+        .transaction-item:hover {
+            background-color: #f8f9fa;
+        }
+
+        .transaction-info {
+            flex: 1;
+        }
+
+        .transaction-type {
+            font-weight: 600;
+            color: #333;
+        }
+
+        .transaction-date {
+            font-size: 12px;
+            color: #666;
+        }
+
+        .transaction-id {
+            font-size: 11px;
+            color: #888;
+            font-family: monospace;
+        }
+
+        .transaction-amount {
+            font-weight: bold;
+            font-size: 16px;
+            text-align: right;
+        }
+
+        .positive {
+            color: #28a745;
+        }
+
+        .negative {
+            color: #dc3545;
+        }
+
+        .user-info {
+            text-align: center;
+            margin-bottom: 20px;
+            padding: 15px;
+            background: #e3f2fd;
+            border-radius: 10px;
+            border: 1px solid #1976D2;
+        }
+
+        .user-name {
+            font-weight: bold;
+            color: #1976D2;
+            margin-bottom: 5px;
+        }
+
+        .user-phone {
+            color: #666;
+            font-size: 14px;
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(13, 71, 161, 0.5);
+            backdrop-filter: blur(5px);
+        }
+
+        .modal-content {
+            background-color: white;
+            margin: 5% auto;
+            padding: 25px;
+            border-radius: 15px;
+            width: 90%;
+            max-width: 500px;
+            position: relative;
+            animation: modalSlideIn 0.3s ease-out;
+            box-shadow: 0 10px 25px rgba(25, 118, 210, 0.3);
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        @keyframes modalSlideIn {
+            from { transform: translateY(-50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .close {
+            position: absolute;
+            right: 20px;
+            top: 15px;
+            font-size: 24px;
+            cursor: pointer;
+            color: #1976D2;
+            transition: color 0.2s;
+        }
+
+        .close:hover {
+            color: #0D47A1;
+        }
+
+        .modal h3 {
+            margin-bottom: 15px;
+            color: #1976D2;
+        }
+
+        .modal p {
+            color: #555;
+            line-height: 1.5;
+        }
+
+        .error {
+            color: #e74c3c;
+            font-size: 14px;
+            margin-top: 5px;
+            display: none;
+        }
+
+        .success {
+            color: #28a745;
+            font-size: 14px;
+            margin-top: 5px;
+            display: none;
+        }
+
+        .warning {
+            color: #ffc107;
+            font-size: 14px;
+            margin-top: 5px;
+            display: none;
+        }
+
+        /* Instruções */
+        .instructions {
+            background: #e3f2fd;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+            border-left: 4px solid #1976D2;
+        }
+
+        .instructions h4 {
+            color: #1976D2;
+            margin-bottom: 10px;
+        }
+
+        .instructions ol {
+            margin-left: 20px;
+            color: #555;
+        }
+
+        .instructions li {
+            margin-bottom: 8px;
+            line-height: 1.4;
+        }
+
+        .transaction-details {
+            background: #e3f2fd;
+            border-radius: 10px;
+            padding: 15px;
+            margin: 15px 0;
+            border: 1px solid #1976D2;
+        }
+
+        .transaction-details p {
+            margin: 5px 0;
+            font-family: monospace;
+            font-size: 14px;
+        }
+
+        .balance-info {
+            background: #e3f2fd;
+            border: 2px solid #1976D2;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 15px 0;
+            text-align: center;
+        }
+
+        .balance-info .current-balance {
+            font-size: 18px;
+            font-weight: bold;
+            color: #1976D2;
+        }
+
+        /* Código Comercial */
+        .commercial-code {
+            background: #e3f2fd;
+            border: 2px dashed #1976D2;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 15px 0;
+            text-align: center;
+        }
+
+        .commercial-code-number {
+            font-family: monospace;
+            font-size: 24px;
+            font-weight: bold;
+            color: #0D47A1;
+            margin: 10px 0;
+            letter-spacing: 2px;
+        }
+
+        .agent-info {
+            background: #e3f2fd;
+            border: 1px solid #1976D2;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 15px 0;
+        }
+
+        .agent-info h4 {
+            color: #0D47A1;
+            margin-bottom: 10px;
+        }
+
+        /* Responsive */
+        @media (max-width: 480px) {
+            .form-container {
+                padding: 30px 20px;
+            }
+            
+            .container {
+                padding: 10px;
+            }
+            
+            .logo h1 {
+                font-size: 24px;
+            }
+
+            .wallet-actions {
+                grid-template-columns: 1fr;
+            }
+
+            .wallet-btn {
+                font-size: 12px;
+                padding: 12px;
+            }
+
+            .machine-details {
+                grid-template-columns: 1fr;
+            }
+
+            .referral-stats {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Área de Autenticação -->
+        <div class="form-container" id="authContainer">
+            <div class="logo">
+                <h1>Amazon Money</h1>
+                <p>Amazon Money investimento seguro e flexível</p>
+            </div>
+
+            <!-- Formulário de Login -->
+            <div class="form login-form active">
+                <h2>Login</h2>
+                <form id="loginForm">
+                    <div class="input-group">
+                        <label for="loginPhone">Número MZN</label>
+                        <div class="phone-input">
+                            <span class="prefix">+258</span>
+                            <input type="tel" id="loginPhone" placeholder="8X XXX XXXX" required>
+                        </div>
+                        <div class="error" id="loginPhoneError"></div>
+                    </div>
+                    <div class="input-group">
+                        <label for="loginPassword">Password</label>
+                        <input type="password" id="loginPassword" placeholder="Introduza a sua password" required>
+                        <div class="error" id="loginPasswordError"></div>
+                    </div>
+                    <button type="submit" class="btn">Entrar na Carteira</button>
+                </form>
+                <p class="switch-form">
+                    Não tem conta? <a href="#" class="switch-to-register">Registe-se</a>
+                </p>
+            </div>
+
+            <!-- Formulário de Registo -->
+            <div class="form register-form">
+                <h2>Registo</h2>
+                <form id="registerForm">
+                    <div class="input-group">
+                        <label for="registerName">Nome Completo</label>
+                        <input type="text" id="registerName" placeholder="Seu nome completo" required>
+                        <div class="error" id="registerNameError"></div>
+                    </div>
+                    <div class="input-group">
+                        <label for="registerPhone">Número MZN</label>
+                        <div class="phone-input">
+                            <span class="prefix">+258</span>
+                            <input type="tel" id="registerPhone" placeholder="8X XXX XXXX" required>
+                        </div>
+                        <div class="error" id="registerPhoneError"></div>
+                    </div>
+                    <div class="input-group">
+                        <label for="registerEmail">Email (opcional)</label>
+                        <input type="email" id="registerEmail" placeholder="@gmail.com">
+                        <div class="error" id="registerEmailError"></div>
+                    </div>
+                    <div class="input-group">
+                        <label for="referralCode">Código de Referência (opcional)</label>
+                        <input type="text" id="referralCode" placeholder="Código do seu referenciador" maxlength="8">
+                        <div class="error" id="referralCodeError"></div>
+                        <div class="success" id="referralCodeSuccess"></div>
+                    </div>
+                    <div class="input-group">
+                        <label for="registerPassword">Password</label>
+                        <input type="password" id="registerPassword" placeholder="Mínimo 6 caracteres" required>
+                        <div class="error" id="registerPasswordError"></div>
+                    </div>
+                    <div class="input-group">
+                        <label for="confirmPassword">Confirmar Password</label>
+                        <input type="password" id="confirmPassword" placeholder="Repita a sua password" required>
+                        <div class="error" id="confirmPasswordError"></div>
+                    </div>
+                    <button type="submit" class="btn">Criar conta</button>
+                </form>
+                <p class="switch-form">
+                    Já tem conta? <a href="#" class="switch-to-login">Faça login</a>
+                </p>
+            </div>
+        </div>
+
+        <!-- Dashboard da Carteira -->
+        <div class="form-container dashboard" id="dashboardContainer">
+            <div class="logo">
+                <h1>Minha Conta</h1>
+                <p>Gerencie seu saldo e transações</p>
+            </div>
+
+            <div class="user-info">
+                <div class="user-name" id="dashboardUserName"></div>
+                <div class="user-phone" id="dashboardUserPhone"></div>
+            </div>
+
+            <!-- Seção de Referência -->
+            <div class="referral-section">
+                <h3> Programa de Referência</h3>
+                <p>Convide amigos e ganhe recompensas!</p>
+                
+                <div class="referral-code" onclick="copyReferralCode()" title="Clique para copiar">
+                    <div id="userReferralCode">CARREGANDO...</div>
+                    <small>Clique para copiar</small>
+                </div>
+
+                <div class="referral-stats">
+                    <div class="referral-stat">
+                        <div class="referral-stat-number" id="referralCount">0</div>
+                        <div class="referral-stat-label">Indicações</div>
+                    </div>
+                    <div class="referral-stat">
+                        <div class="referral-stat-number" id="referralEarnings">0 MT</div>
+                        <div class="referral-stat-label">Ganhos Totais</div>
+                    </div>
+                </div>
+
+                <button class="wallet-btn" onclick="showReferralModal()" style="margin-top: 10px;">
+                     Compartilhar
+                </button>
+            </div>
+
+            <!-- Carteira -->
+            <div class="wallet-card">
+                <div class="wallet-header">
+                    <div class="wallet-title">Saldo Disponível</div>
+                    <div class="wallet-currency">MZN</div>
+                </div>
+                <div class="wallet-balance" id="walletBalance">0,00 MT</div>
+                <div class="wallet-number" id="walletNumber"></div>
+                
+                <div class="wallet-actions">
+                    <button class="wallet-btn" onclick="showDepositModal()">
+                         Depositar
+                    </button>
+                    <button class="wallet-btn" onclick="showWithdrawModal()">
+                         Levantamento
+                    </button>
+                    <button class="wallet-btn" onclick="showMiningModal()">
+                        ⛏️ Mineração
+                    </button>
+                    <button class="wallet-btn" onclick="showHistory()">
+                         Histórico
+                    </button>
+                </div>
+            </div>
+
+            <!-- Mineração Ativa -->
+            <div id="activeMiningContainer" style="display: none;">
+                <div class="active-mining">
+                    <h3>⛏️ Mineração em Andamento</h3>
+                    <div class="mining-stats">
+                        <div>Máquina: <strong id="activeMachineName"></strong></div>
+                        <div>Investimento: <strong id="activeInvestment"></strong></div>
+                        <div>Retorno Total: <strong id="activeReturn"></strong></div>
+                        <div>Duração: <strong id="activeDuration"></strong></div>
+                    </div>
+                    <div class="mining-progress">
+                        <div class="progress-bar" id="miningProgressBar"></div>
+                    </div>
+                    <div class="mining-stats">
+                        <div>Tempo Restante: <strong id="timeRemaining"></strong></div>
+                        <div>Lucro Diário: <strong id="dailyProfit"></strong></div>
+                        <div>Lucro Acumulado: <strong id="accumulatedProfit"></strong></div>
+                    </div>
+                    <button class="btn btn-warning" onclick="cancelMining()" style="margin-top: 10px;">
+                        ⚠️ Cancelar Mineração
+                    </button>
+                </div>
+            </div>
+
+            <!-- Transações Recentes -->
+            <div class="transactions">
+                <h3>Transações Recentes</h3>
+                <div class="transaction-list" id="transactionList">
+                    <!-- As transações serão carregadas aqui -->
+                </div>
+            </div>
+
+            <button class="btn btn-secondary" onclick="logout()" style="margin-top: 20px;">
+                 Sair da Conta
+            </button>
+        </div>
+
+        <!-- Modais -->
+        <div id="successModal" class="modal">
+            <div class="modal-content">
+                <span class="close" onclick="hideModal('successModal')">&times;</span>
+                <h3>Sucesso!</h3>
+                <p id="modalMessage"></p>
+                <button class="btn" onclick="hideModal('successModal')">Fechar</button>
+            </div>
+        </div>
+
+        <!-- Modal de Depósito com Código Comercial -->
+        <div id="depositModal" class="modal">
+            <div class="modal-content">
+                <span class="close" onclick="hideDepositModal()">&times;</span>
+                <h3> Depositar via Paga Fácil</h3>
+                
+                <div class="instructions">
+                    <h4> Como depositar usando Código Comercial:</h4>
+                    <ol>
+                        <li>Vá a qualquer agente Paga Fácil (Supermercado, Loja, etc.)</li>
+                        <li>Diga que quer fazer um depósito usando <strong>Código Comercial</strong></li>
+                        <li>Forneça o código comercial abaixo ao agente</li>
+                        <li>Informe o valor que deseja depositar</li>
+                        <li>Pague o valor + taxa do agente</li>
+                        <li>Guarde o comprovante com o <strong>Número de referência</strong></li>
+                        <li>Volte aqui e registe o depósito</li>
+                    </ol>
+                </div>
+
+                <div class="commercial-code">
+                    <h4>Código de Pagamento comercial</h4>
+                    <div class="commercial-code-number" id="commercialCode">CARREGANDO...</div>
+                    <small><h3>Atendimento ao Cliente</h3>
+</small>: amazonmoney637@gmail.com
+                    <button class="btn btn-primary" onclick="copyCommercialCode()" style="margin-top: 10px;">
+                         1198697
+                    </button>
+                </div>
+
+                <div class="agent-info">
+                    <h4> Informação para o Agente:</h4>
+                    <p><strong>Serviço:</strong> Depósito em Carteira Digital</p>
+                    <p><strong>Beneficiário:</strong> <span id="agentUserName"></span></p>
+                    <p><strong>Contacto:</strong> <span id="agentUserPhone"></span></p>
+                </div>
+
+                <div class="input-group">
+                    <label for="depositAmount">Valor Depositado (MZN)</label>
+                    <input type="number" id="depositAmount" placeholder="0,00" min="500000" step="0.01">
+                    <div class="error" id="depositAmountError"></div>
+                    <small style="color: #666;">Valor mínimo: 350 MT</small>
+                </div>
+
+                <div class="input-group">
+                    <label for="referenceNumber">Número de Referência Paga Fácil</label>
+                    <input type="text" id="referenceNumber" placeholder="Número do comprovante" maxlength="20">
+                    <div class="error" id="referenceNumberError"></div>
+                    <div class="success" id="referenceNumberSuccess"></div>
+                </div>
+
+                <div class="input-group">
+                    <label for="depositDate">Data do Depósito</label>
+                    <input type="datetime-local" id="depositDate">
+                    <div class="error" id="depositDateError"></div>
+                </div>
+
+                <div class="transaction-details">
+                    <p><strong>Método:</strong> Paga Fácil - Código Comercial</p>
+                    <p><strong>Código Comercial:</strong> <span id="displayCommercialCode"></span></p>
+                    <p><strong>Status:</strong> Aguardando confirmação</p>
+                </div>
+
+                <button class="btn btn-success" onclick="processDeposit()">
+                    ✅ Registrar Depósito
+                </button>
+            </div>
+        </div>
+
+        <!-- Modal de Levantamento -->
+        <div id="withdrawModal" class="modal">
+            <div class="modal-content">
+                <span class="close" onclick="hideWithdrawModal()">&times;</span>
+                <h3>Levantamento</h3>
+                
+                <div class="balance-info">
+                    <div>Saldo Disponível</div>
+                    <div class="current-balance" id="currentBalance">0,00 MT</div>
+                </div>
+
+                <div class="instructions">
+                    <h4>Como levantar:</h4>
+                    <ol>
+                        <li>Insira o valor que deseja levantar</li>
+                        <li>Confirme os dados do levantamento</li>
+                        <li>O valor será disponibilizado via transferência</li>
+                        <li>Guarde o iD da transação para referência</li>
+                    </ol>
+                </div>
+
+                <div class="input-group">
+                    <label for="withdrawAmount">Valor do Levantamento (MZN)</label>
+                    <input type="number" id="withdrawAmount" placeholder="0,00" min="1" step="0.01">
+                    <div class="error" id="withdrawAmountError"></div>
+                    <div class="warning" id="withdrawAmountWarning"></div>
+                </div>
+
+                <div class="input-group">
+                    <label for="withdrawMethod">Método de Levantamento</label>
+                    <select id="withdrawMethod">
+                        <option value="mpesa">M-Pesa</option>
+                        <option value="bank-transfer">Transferência Bancária</option>
+                        <option value="paga-facil">Paga Fácil</option>
+                    </select>
+                </div>
+
+                <div class="input-group">
+                    <label for="withdrawPhone">Número para Receber (MZN)</label>
+                    <div class="phone-input">
+                        <span class="prefix">+258</span>
+                        <input type="tel" id="withdrawPhone" placeholder="8X XXX XXXX">
+                    </div>
+                    <div class="error" id="withdrawPhoneError"></div>
+                </div>
+
+                <div class="transaction-details">
+                    <p><strong>Número da Carteira:</strong> <span id="withdrawWalletNumber"></span></p>
+                    <p><strong>Método Selecionado:</strong> <span id="selectedMethod">M-Pesa</span></p>
+                </div>
+
+                <button class="btn btn-warning" onclick="processWithdraw()">
+                     Solicitar Levantamento
+                </button>
+            </div>
+        </div>
+
+        <!-- Modal de Mineração -->
+        <div id="miningModal" class="modal">
+            <div class="modal-content">
+                <span class="close" onclick="hideMiningModal()">&times;</span>
+                <h3>⛏️ Máquinas de Mineração</h3>
+                
+                <div class="balance-info">
+                    <div>Saldo Disponível para Investir</div>
+                    <div class="current-balance" id="miningBalance">0,00 MT</div>
+                </div>
+
+                <div class="instructions">
+                    <h4>Como funciona:</h4>
+                    <ol>
+                        <li>Escolha uma máquina de mineração</li>
+                        <li>Investa o valor necessário</li>
+                        <li>A máquina minerará automaticamente</li>
+                        <li>Receba lucros diários durante o período</li>
+                        <li>Retire seus lucros a qualquer momento</li>
+                    </ol>
+                </div>
+
+                <div class="mining-machines" id="miningMachines">
+                    <!-- Máquinas serão carregadas aqui -->
+                </div>
+
+                <div id="selectedMachineInfo" style="display: none;">
+                    <div class="transaction-details">
+                        <h4>Máquina Selecionada</h4>
+                        <p><strong>Nome:</strong> <span id="selectedMachineName"></span></p>
+                        <p><strong>Investimento:</strong> <span id="selectedMachineCost"></span></p>
+                        <p><strong>Retorno Total:</strong> <span id="selectedMachineReturn"></span></p>
+                        <p><strong>Lucro Diário:</strong> <span id="selectedMachineDaily"></span></p>
+                        <p><strong>Duração:</strong> <span id="selectedMachineDuration"></span></p>
+                    </div>
+                    <button class="btn btn-info" onclick="startMining()">
+                         Iniciar Mineração
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal de Referência -->
+        <div id="referralModal" class="modal">
+            <div class="modal-content">
+                <span class="close" onclick="hideReferralModal()">&times;</span>
+                <h3> Compartilhar Código de Referência</h3>
+                
+                <div class="instructions">
+                    <h4>Como funciona o programa de referência:</h4>
+                    <ol>
+                        <li>Compartilhe seu código único com amigos</li>
+                        <li>Seu amigo usa o código ao registar-se</li>
+                        <li>Você recebe <strong>15 MT</strong> de bónus quando ele fizer o primeiro depósito</li>
+                        <li>Seu amigo também recebe <strong>15 MT</strong> de bónus</li>
+                        <li>Ganhe <strong>5%</strong> de comissão sobre os investimentos em mineração dos seus referidos</li>
+                    </ol>
+                </div>
+
+                <div class="input-group">
+                    <label>Seu Código de Referência:</label>
+                    <div class="referral-code" style="background: #f8f9fa; color: #333; cursor: text;">
+                        <div id="shareReferralCode">CARREGANDO...</div>
+                    </div>
+                </div>
+
+                <div class="input-group">
+                    <label>Link de Convite:</label>
+                    <input type="text" id="referralLink" readonly style="background: #f8f9fa; cursor: pointer;" onclick="this.select()">
+                </div>
+
+                <div class="input-group">
+                    <label>Mensagem para compartilhar:</label>
+                    <textarea id="shareMessage" rows="4" readonly style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px; background: #f8f9fa; resize: none;"></textarea>
+                </div>
+
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+                    <button class="btn btn-primary" onclick="shareWhatsApp()">
+                         WhatsApp
+                    </button>
+                    <button class="btn btn-info" onclick="copyReferralLink()">
+                         Copiar Link
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Todo o JavaScript permanece EXATAMENTE o mesmo
+        class CarteiraMZN {
+            constructor() {
+                this.users = JSON.parse(localStorage.getItem('mzn_users')) || [];
+                this.transactions = JSON.parse(localStorage.getItem('mzn_transactions')) || {};
+                this.mining = JSON.parse(localStorage.getItem('mzn_mining')) || {};
+                this.referrals = JSON.parse(localStorage.getItem('mzn_referrals')) || {};
+                this.currentUser = null;
+                this.selectedMachine = null;
+                this.miningMachines = [
+                    {
+                        id: 1,
+                        name: "Miner Básico",
+                        cost: 350,
+                        return: 300,
+                        daily: 20,
+                        duration: 15,
+                        description: "Ideal para iniciantes"
+                    },
+                    {
+                        id: 2,
+                        name: "Miner Intermédio",
+                        cost: 750,
+                        return: 775,
+                        daily: 25,
+                        duration: 31,
+                        description: "Bom equilíbrio risco/retorno"
+                    },
+                    {
+                        id: 3,
+                        name: "Miner Avançado",
+                        cost: 1400,
+                        return: 1240,
+                        daily: 40,
+                        duration: 31,
+                        description: "Para investidores experientes"
+                    },
+                    {
+                        id: 4,
+                        name: "Miner Profissional",
+                        cost: 2000,
+                        return: 1860,
+                        daily: 60,
+                        duration: 31,
+                        description: "Alta performance"
+                    },
+                    {
+                        id: 5,
+                        name: "Miner Elite",
+                        cost: 2600,
+                        return: 2325,
+                        daily: 75,
+                        duration: 31,
+                        description: "Rendimentos premium"
+                    },
+                    {
+                        id: 6,
+                        name: "Miner Master",
+                        cost: 3000,
+                        return: 2790,
+                        daily: 90,
+                        duration: 31,
+                        description: "Máxima eficiência"
+                    }
+                ];
+                this.init();
+            }
+
+            init() {
+                this.setupEventListeners();
+                this.setupPhoneMask();
+                this.checkLoggedIn();
+                this.startMiningUpdates();
+            }
+
+            startMiningUpdates() {
+                setInterval(() => {
+                    if (this.currentUser) {
+                        this.updateMiningProgress();
+                    }
+                }, 60000);
+            }
+
+            checkLoggedIn() {
+                const loggedInUser = localStorage.getItem('mzn_logged_in');
+                if (loggedInUser) {
+                    this.currentUser = JSON.parse(loggedInUser);
+                    this.showDashboard();
+                }
+            }
+
+            setupEventListeners() {
+                document.querySelector('.switch-to-register').addEventListener('click', (e) => {
+                    e.preventDefault();
+                    this.showForm('register');
+                });
+
+                document.querySelector('.switch-to-login').addEventListener('click', (e) => {
+                    e.preventDefault();
+                    this.showForm('login');
+                });
+
+                document.getElementById('loginForm').addEventListener('submit', (e) => {
+                    e.preventDefault();
+                    this.handleLogin();
+                });
+
+                document.getElementById('registerForm').addEventListener('submit', (e) => {
+                    e.preventDefault();
+                    this.handleRegister();
+                });
+
+                document.getElementById('referralCode')?.addEventListener('input', (e) => {
+                    this.validateReferralCode(e.target.value);
+                });
+
+                document.getElementById('referenceNumber')?.addEventListener('input', (e) => {
+                    this.validateReferenceNumber(e.target.value);
+                });
+
+                document.getElementById('withdrawAmount')?.addEventListener('input', (e) => {
+                    this.validateWithdrawAmount(parseFloat(e.target.value || 0));
+                });
+
+                document.getElementById('withdrawMethod')?.addEventListener('change', (e) => {
+                    document.getElementById('selectedMethod').textContent = 
+                        e.target.options[e.target.selectedIndex].text;
+                });
+
+                document.querySelectorAll('.close').forEach(closeBtn => {
+                    closeBtn.addEventListener('click', function() {
+                        this.closest('.modal').style.display = 'none';
+                    });
+                });
+
+                window.addEventListener('click', (e) => {
+                    if (e.target.classList.contains('modal')) {
+                        e.target.style.display = 'none';
+                    }
+                });
+            }
+
+            setupPhoneMask() {
+                const phoneInputs = document.querySelectorAll('input[type="tel"]');
+                phoneInputs.forEach(input => {
+                    input.addEventListener('input', (e) => {
+                        let value = e.target.value.replace(/\D/g, '');
+                        if (value.length > 0) {
+                            value = value.replace(/^(\d{1})(\d{0,3})(\d{0,4})/, '$1 $2 $3').trim();
+                        }
+                        e.target.value = value;
+                    });
+                });
+            }
+
+            generateReferralCode() {
+                const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+                let code = '';
+                for (let i = 0; i < 6; i++) {
+                    code += chars.charAt(Math.floor(Math.random() * chars.length));
+                }
+                return code;
+            }
+
+            generateCommercialCode() {
+                const numbers = '0123456789';
+                let commercialCode = 'PF';
+                for (let i = 0; i < 6; i++) {
+                    commercialCode += numbers.charAt(Math.floor(Math.random() * numbers.length));
+                }
+                return commercialCode;
+            }
+
+            validateReferralCode(code) {
+                const errorElement = document.getElementById('referralCodeError');
+                const successElement = document.getElementById('referralCodeSuccess');
+                
+                if (!code) {
+                    errorElement.style.display = 'none';
+                    successElement.style.display = 'none';
+                    return true;
+                }
+
+                const referrer = this.users.find(user => user.referralCode === code);
+                
+                if (!referrer) {
+                    errorElement.textContent = 'Código de referência inválido.';
+                    errorElement.style.display = 'block';
+                    successElement.style.display = 'none';
+                    return false;
+                }
+
+                if (this.currentUser && referrer.phone === this.currentUser.phone) {
+                    errorElement.textContent = 'Não pode usar o seu próprio código.';
+                    errorElement.style.display = 'block';
+                    successElement.style.display = 'none';
+                    return false;
+                }
+
+                errorElement.style.display = 'none';
+                successElement.textContent = '✓ Código de referência válido';
+                successElement.style.display = 'block';
+                return true;
+            }
+
+            validateReferenceNumber(referenceNumber) {
+                const errorElement = document.getElementById('referenceNumberError');
+                const successElement = document.getElementById('referenceNumberSuccess');
+                
+                if (!referenceNumber) {
+                    errorElement.style.display = 'none';
+                    successElement.style.display = 'none';
+                    return false;
+                }
+
+                const allTransactions = Object.values(this.transactions).flat();
+                const existingTransaction = allTransactions.find(t => t.referenceNumber === referenceNumber);
+
+                if (existingTransaction) {
+                    errorElement.textContent = 'Este número de referência já foi utilizado.';
+                    errorElement.style.display = 'block';
+                    successElement.style.display = 'none';
+                    return false;
+                }
+
+                const referenceRegex = /^\d{8,12}$/;
+                if (!referenceRegex.test(referenceNumber)) {
+                    errorElement.textContent = 'Use ID de valido.';
+                    errorElement.style.display = 'block';
+                    successElement.style.display = 'none';
+                    return false;
+                }
+
+                errorElement.style.display = 'none';
+                successElement.textContent = '✓ Número de referência válido';
+                successElement.style.display = 'block';
+                return true;
+            }
+
+            showForm(formType) {
+                document.querySelectorAll('.form').forEach(form => {
+                    form.classList.remove('active');
+                });
+
+                if (formType === 'login') {
+                    document.querySelector('.login-form').classList.add('active');
+                } else {
+                    document.querySelector('.register-form').classList.add('active');
+                }
+                
+                this.clearErrors();
+            }
+
+            showDashboard() {
+                document.getElementById('authContainer').style.display = 'none';
+                document.getElementById('dashboardContainer').classList.add('active');
+                this.updateDashboard();
+                this.updateMiningProgress();
+                this.updateReferralStats();
+            }
+
+            showAuth() {
+                document.getElementById('authContainer').style.display = 'block';
+                document.getElementById('dashboardContainer').classList.remove('active');
+                this.currentUser = null;
+                localStorage.removeItem('mzn_logged_in');
+            }
+
+            updateDashboard() {
+                if (!this.currentUser) return;
+
+                document.getElementById('dashboardUserName').textContent = this.currentUser.name;
+                document.getElementById('dashboardUserPhone').textContent = `+258 ${this.currentUser.phone}`;
+                document.getElementById('walletNumber').textContent = `Número: +258 ${this.currentUser.phone}`;
+
+                const balance = this.getUserBalance(this.currentUser.phone);
+                document.getElementById('walletBalance').textContent = `${balance.toFixed(2)} MT`;
+
+                document.getElementById('userReferralCode').textContent = this.currentUser.referralCode;
+
+                this.updateTransactionList();
+            }
+
+            updateReferralStats() {
+                if (!this.currentUser) return;
+
+                const userReferrals = this.referrals[this.currentUser.phone] || {
+                    referredUsers: [],
+                    totalEarnings: 0,
+                    referralCount: 0
+                };
+
+                document.getElementById('referralCount').textContent = userReferrals.referralCount || 0;
+                document.getElementById('referralEarnings').textContent = `${userReferrals.totalEarnings || 0} MT`;
+            }
+
+            getUserBalance(phone) {
+                const userTransactions = this.transactions[phone] || [];
+                return userTransactions.reduce((total, transaction) => {
+                    if (transaction.type === 'deposit') return total + transaction.amount;
+                    if (transaction.type === 'withdraw') return total - transaction.amount;
+                    if (transaction.type === 'mining_investment') return total - transaction.amount;
+                    if (transaction.type === 'mining_profit') return total + transaction.amount;
+                    if (transaction.type === 'referral_bonus') return total + transaction.amount;
+                    return total;
+                }, 0);
+            }
+
+            updateTransactionList() {
+                const transactionList = document.getElementById('transactionList');
+                const userTransactions = this.transactions[this.currentUser.phone] || [];
+                
+                const recentTransactions = userTransactions
+                    .sort((a, b) => new Date(b.date) - new Date(a.date))
+                    .slice(0, 10);
+
+                if (recentTransactions.length === 0) {
+                    transactionList.innerHTML = '<div class="transaction-item"><div class="transaction-info">Nenhuma transação realizada</div></div>';
+                    return;
+                }
+
+                transactionList.innerHTML = recentTransactions.map(transaction => `
+                    <div class="transaction-item">
+                        <div class="transaction-info">
+                            <div class="transaction-type">${this.getTransactionDescription(transaction)}</div>
+                            <div class="transaction-date">${new Date(transaction.date).toLocaleDateString('pt-MZ')} ${new Date(transaction.date).toLocaleTimeString('pt-MZ', {hour: '2-digit', minute:'2-digit'})}</div>
+                            ${transaction.referenceNumber ? `<div class="transaction-id">Ref: ${transaction.referenceNumber}</div>` : 
+                              transaction.transactionId ? `<div class="transaction-id">ID: ${transaction.transactionId}</div>` : ''}
+                        </div>
+                        <div class="transaction-amount ${transaction.amount > 0 ? 'positive' : 'negative'}">
+                            ${transaction.amount > 0 ? '+' : ''}${transaction.amount.toFixed(2)} MT
+                        </div>
+                    </div>
+                `).join('');
+            }
+
+            getTransactionDescription(transaction) {
+                if (transaction.type === 'deposit') {
+                    return `Depósito - ${transaction.paymentMethod || 'Paga Fácil'}`;
+                }
+                if (transaction.type === 'withdraw') {
+                    return `Levantamento - ${transaction.withdrawMethod || 'M-Pesa'}`;
+                }
+                if (transaction.type === 'mining_investment') {
+                    return `Investimento em Mineração - ${transaction.machineName}`;
+                }
+                if (transaction.type === 'mining_profit') {
+                    return `Lucro de Mineração - ${transaction.machineName}`;
+                }
+                if (transaction.type === 'referral_bonus') {
+                    return `Bónus de Referência - ${transaction.referredUser || ''}`;
+                }
+                return transaction.description || 'Transação';
+            }
+
+            validatePhone(phone) {
+                const cleanPhone = phone.replace(/\s/g, '');
+                const phoneRegex = /^8[2-7]\d{7}$/;
+                return phoneRegex.test(cleanPhone);
+            }
+
+            validatePassword(password) {
+                return password.length >= 6;
+            }
+
+            validateEmail(email) {
+                if (!email) return true;
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                return emailRegex.test(email);
+            }
+
+            validateWithdrawAmount(amount) {
+                const warningElement = document.getElementById('withdrawAmountWarning');
+                const balance = this.getUserBalance(this.currentUser.phone);
+                
+                if (amount > balance) {
+                    warningElement.textContent = `Saldo insuficiente. Saldo disponível: ${balance.toFixed(2)} MT`;
+                    warningElement.style.display = 'block';
+                    return false;
+                } else {
+                    warningElement.style.display = 'none';
+                    return true;
+                }
+            }
+
+            showError(elementId, message) {
+                const errorElement = document.getElementById(elementId);
+                errorElement.textContent = message;
+                errorElement.style.display = 'block';
+            }
+
+            hideError(elementId) {
+                const errorElement = document.getElementById(elementId);
+                errorElement.style.display = 'none';
+            }
+
+            clearErrors() {
+                const errorElements = document.querySelectorAll('.error, .warning');
+                errorElements.forEach(element => {
+                    element.style.display = 'none';
+                });
+            }
+
+            handleLogin() {
+                const phone = document.getElementById('loginPhone').value;
+                const password = document.getElementById('loginPassword').value;
+                let isValid = true;
+
+                this.hideError('loginPhoneError');
+                this.hideError('loginPasswordError');
+
+                if (!phone) {
+                    this.showError('loginPhoneError', 'Por favor, insira o seu número MZN.');
+                    isValid = false;
+                } else if (!this.validatePhone(phone)) {
+                    this.showError('loginPhoneError', 'Por favor, insira um número MZN válido (ex: 84 123 4567).');
+                    isValid = false;
+                }
+
+                if (!password) {
+                    this.showError('loginPasswordError', 'Por favor, insira a sua password.');
+                    isValid = false;
+                }
+
+                if (!isValid) return;
+
+                const cleanPhone = phone.replace(/\s/g, '');
+                const user = this.users.find(u => u.phone === cleanPhone);
+
+                if (!user) {
+                    this.showError('loginPhoneError', 'Número não registado. Por favor, registe-se primeiro.');
+                    return;
+                }
+
+                if (user.password !== password) {
+                    this.showError('loginPasswordError', 'Password incorrecta. Tente novamente.');
+                    return;
+                }
+
+                this.currentUser = user;
+                localStorage.setItem('mzn_logged_in', JSON.stringify(user));
+                this.showModal('successModal', `Bem-vindo de volta, ${user.name}!`);
+                this.showDashboard();
+                this.clearForm('loginForm');
+            }
+
+            handleRegister() {
+                const name = document.getElementById('registerName').value;
+                const phone = document.getElementById('registerPhone').value;
+                const email = document.getElementById('registerEmail').value;
+                const referralCode = document.getElementById('referralCode').value;
+                const password = document.getElementById('registerPassword').value;
+                const confirmPassword = document.getElementById('confirmPassword').value;
+                let isValid = true;
+
+                this.clearErrors();
+
+                if (!name.trim()) {
+                    this.showError('registerNameError', 'Por favor, insira o seu nome completo.');
+                    isValid = false;
+                }
+
+                if (!phone) {
+                    this.showError('registerPhoneError', 'Por favor, insira o seu número MZN.');
+                    isValid = false;
+                } else if (!this.validatePhone(phone)) {
+                    this.showError('registerPhoneError', 'Por favor, insira um número MZN válido (ex: 84 123 4567).');
+                    isValid = false;
+                }
+
+                if (email && !this.validateEmail(email)) {
+                    this.showError('registerEmailError', 'Por favor, insira um email válido.');
+                    isValid = false;
+                }
+
+                if (referralCode && !this.validateReferralCode(referralCode)) {
+                    isValid = false;
+                }
+
+                if (!password) {
+                    this.showError('registerPasswordError', 'Por favor, insira uma password.');
+                    isValid = false;
+                } else if (!this.validatePassword(password)) {
+                    this.showError('registerPasswordError', 'A password deve ter pelo menos 6 caracteres.');
+                    isValid = false;
+                }
+
+                if (!confirmPassword) {
+                    this.showError('confirmPasswordError', 'Por favor, confirme a sua password.');
+                    isValid = false;
+                } else if (password !== confirmPassword) {
+                    this.showError('confirmPasswordError', 'As passwords não coincidem.');
+                    isValid = false;
+                }
+
+                if (!isValid) return;
+
+                const cleanPhone = phone.replace(/\s/g, '');
+                if (this.users.find(u => u.phone === cleanPhone)) {
+                    this.showError('registerPhoneError', 'Este número já está registado. Por favor, faça login.');
+                    return;
+                }
+
+                let referralCodeGenerated;
+                do {
+                    referralCodeGenerated = this.generateReferralCode();
+                } while (this.users.find(u => u.referralCode === referralCodeGenerated));
+
+                let commercialCode;
+                do {
+                    commercialCode = this.generateCommercialCode();
+                } while (this.users.find(u => u.commercialCode === commercialCode));
+
+                const newUser = {
+                    id: Date.now(),
+                    name: name.trim(),
+                    phone: cleanPhone,
+                    email: email.trim(),
+                    password: password,
+                    referralCode: referralCodeGenerated,
+                    commercialCode: commercialCode,
+                    referredBy: referralCode || null,
+                    createdAt: new Date().toISOString()
+                };
+
+                this.users.push(newUser);
+                this.saveUsers();
+
+                if (referralCode) {
+                    this.processReferral(referralCode, cleanPhone, name);
+                }
+
+                this.addTransaction(cleanPhone, {
+                    type: 'deposit',
+                    amount: 0,
+                    date: new Date().toISOString(),
+                    description: 'Abertura de conta',
+                    paymentMethod: 'Sistema',
+                    transactionId: 'SYS' + Date.now()
+                });
+
+                this.currentUser = newUser;
+                localStorage.setItem('mzn_logged_in', JSON.stringify(newUser));
+                
+                this.showModal('successModal', 
+                    `Carteira criada com sucesso! Bem-vindo(a), ${name}!<br><br>
+                    <strong>Seu código de referência:</strong> ${referralCodeGenerated}<br>
+                    <strong>Seu código comercial Paga Fácil:</strong> ${commercialCode}<br>
+                    ${referralCode ? '<strong>Bónus de referência ativado!</strong>' : ''}`
+                );
+                
+                this.showDashboard();
+                this.clearForm('registerForm');
+            }
+
+            processReferral(referralCode, newUserPhone, newUserName) {
+                const referrer = this.users.find(user => user.referralCode === referralCode);
+                if (!referrer) return;
+
+                if (!this.referrals[referrer.phone]) {
+                    this.referrals[referrer.phone] = {
+                        referredUsers: [],
+                        totalEarnings: 0,
+                        referralCount: 0
+                    };
+                }
+
+                this.referrals[referrer.phone].referredUsers.push({
+                    phone: newUserPhone,
+                    name: newUserName,
+                    joinDate: new Date().toISOString(),
+                    hasDeposited: false
+                });
+
+                this.referrals[referrer.phone].referralCount++;
+                localStorage.setItem('mzn_referrals', JSON.stringify(this.referrals));
+            }
+
+            awardReferralBonus(referredUserPhone, depositAmount) {
+                const referredUser = this.users.find(user => user.phone === referredUserPhone);
+                if (!referredUser || !referredUser.referredBy) return;
+
+                const referrer = this.users.find(user => user.referralCode === referredUser.referredBy);
+                if (!referrer) return;
+
+                this.addTransaction(referrer.phone, {
+                    type: 'referral_bonus',
+                    amount: 10,
+                    date: new Date().toISOString(),
+                    description: `Bónus de referência - ${referredUser.name}`,
+                    referredUser: referredUser.name,
+                    transactionId: 'REF' + Date.now()
+                });
+
+                this.addTransaction(referredUserPhone, {
+                    type: 'referral_bonus',
+                    amount: 10,
+                    date: new Date().toISOString(),
+                    description: 'Bónus de boas-vindas por referência',
+                    transactionId: 'REFWELCOME' + Date.now()
+                });
+
+                if (this.referrals[referrer.phone]) {
+                    this.referrals[referrer.phone].totalEarnings += 50;
+                    
+                    const referredUserData = this.referrals[referrer.phone].referredUsers.find(u => u.phone === referredUserPhone);
+                    if (referredUserData) {
+                        referredUserData.hasDeposited = true;
+                        referredUserData.firstDepositDate = new Date().toISOString();
+                        referredUserData.firstDepositAmount = depositAmount;
+                    }
+                }
+
+                localStorage.setItem('mzn_referrals', JSON.stringify(this.referrals));
+
+                if (this.currentUser && this.currentUser.phone === referrer.phone) {
+                    this.updateReferralStats();
+                }
+            }
+
+            showDepositModal() {
+                if (!this.currentUser) return;
+                
+                document.getElementById('commercialCode').textContent = this.currentUser.commercialCode;
+                document.getElementById('displayCommercialCode').textContent = this.currentUser.commercialCode;
+                document.getElementById('agentUserName').textContent = this.currentUser.name;
+                document.getElementById('agentUserPhone').textContent = '+258 ' + this.currentUser.phone;
+                
+                const now = new Date();
+                document.getElementById('depositDate').value = now.toISOString().slice(0, 16);
+                
+                document.getElementById('depositAmount').value = '';
+                document.getElementById('referenceNumber').value = '';
+                document.getElementById('referenceNumberError').style.display = 'none';
+                document.getElementById('referenceNumberSuccess').style.display = 'none';
+                document.getElementById('depositAmountError').style.display = 'none';
+                document.getElementById('depositDateError').style.display = 'none';
+                
+                this.showModal('depositModal');
+            }
+
+            showWithdrawModal() {
+                if (!this.currentUser) return;
+                
+                const balance = this.getUserBalance(this.currentUser.phone);
+                
+                document.getElementById('currentBalance').textContent = `${balance.toFixed(2)} MT`;
+                document.getElementById('withdrawWalletNumber').textContent = '+258 ' + this.currentUser.phone;
+                
+                document.getElementById('withdrawPhone').value = this.currentUser.phone.replace(/(\d{1})(\d{3})(\d{4})/, '$1 $2 $3');
+                
+                document.getElementById('withdrawAmount').value = '';
+                document.getElementById('withdrawAmountError').style.display = 'none';
+                document.getElementById('withdrawAmountWarning').style.display = 'none';
+                document.getElementById('withdrawPhoneError').style.display = 'none';
+                
+                this.showModal('withdrawModal');
+            }
+
+            showMiningModal() {
+                if (!this.currentUser) return;
+                
+                const balance = this.getUserBalance(this.currentUser.phone);
+                document.getElementById('miningBalance').textContent = `${balance.toFixed(2)} MT`;
+                
+                this.loadMiningMachines();
+                
+                const activeMining = this.mining[this.currentUser.phone];
+                if (activeMining) {
+                    this.showModal('successModal', 'Já possui uma mineração ativa. Aguarde o término para iniciar uma nova.');
+                    return;
+                }
+                
+                this.showModal('miningModal');
+            }
+
+            showReferralModal() {
+                if (!this.currentUser) return;
+                
+                document.getElementById('shareReferralCode').textContent = this.currentUser.referralCode;
+                
+                const referralLink = `${window.location.origin}${window.location.pathname}?ref=${this.currentUser.referralCode}`;
+                document.getElementById('referralLink').value = referralLink;
+                
+                const message = ` Junta-te a mim na Carteira MZN! \n\nUse meu código de referência: ${this.currentUser.referralCode} \n\nGanhe 15 MT de bónus no registo e eu ganho 15 MT! \n\n${referralLink}`;
+                document.getElementById('shareMessage').value = message;
+                
+                this.showModal('referralModal');
+            }
+
+            copyCommercialCode() {
+                const code = this.currentUser.commercialCode;
+                navigator.clipboard.writeText(code).then(() => {
+                    this.showModal('successModal', 'Código comercial copiado para a área de transferência! Mostre este código ao agente Paga Fácil.');
+                });
+            }
+
+            processDeposit() {
+                const amount = parseFloat(document.getElementById('depositAmount').value);
+                const referenceNumber = document.getElementById('referenceNumber').value.trim();
+                const depositDate = document.getElementById('depositDate').value;
+                
+                let isValid = true;
+
+                if (!amount || amount < 500000) {
+                    this.showError('depositAmountError', 'Por favor, insira um valor válido (mínimo 500000 MT).');
+                    isValid = false;
+                }
+
+                if (!referenceNumber) {
+                    this.showError('referenceNumberError', 'Por favor, insira o número de referência do comprovante.');
+                    isValid = false;
+                } else if (!this.validateReferenceNumber(referenceNumber)) {
+                    isValid = false;
+                }
+
+                if (!depositDate) {
+                    this.showError('depositDateError', 'Por favor, insira a data do depósito.');
+                    isValid = false;
+                }
+
+                if (!isValid) return;
+
+                this.addTransaction(this.currentUser.phone, {
+                    type: 'deposit',
+                    amount: amount,
+                    date: depositDate,
+                    description: 'Depósito via Paga Fácil - Código Comercial',
+                    paymentMethod: 'Paga Fácil - Código Comercial',
+                    commercialCode: this.currentUser.commercialCode,
+                    referenceNumber: referenceNumber,
+                    status: 'completed'
+                });
+
+                const userTransactions = this.transactions[this.currentUser.phone] || [];
+                const depositTransactions = userTransactions.filter(t => t.type === 'deposit' && t.amount > 0);
+                if (depositTransactions.length === 1) {
+                    this.awardReferralBonus(this.currentUser.phone, amount);
+                }
+
+                this.hideModal('depositModal');
+                this.showModal('successModal', 
+                    `Depósito de ${amount.toFixed(2)} MT realizado com sucesso!<br><br>
+                    <strong>Método:</strong> Paga Fácil - Código Comercial<br>
+                    <strong>Código Comercial:</strong> ${this.currentUser.commercialCode}<br>
+                    <strong>Número de Referência:</strong> ${referenceNumber}<br>
+                    <strong>Data:</strong> ${new Date(depositDate).toLocaleDateString('pt-MZ')}<br><br>
+                    <em>O valor estará disponível na sua carteira em alguns minutos.</em>`
+                );
+                this.updateDashboard();
+                
+                document.getElementById('depositAmount').value = '';
+                document.getElementById('referenceNumber').value = '';
+            }
+
+            processWithdraw() {
+                const amount = parseFloat(document.getElementById('withdrawAmount').value);
+                const withdrawMethod = document.getElementById('withdrawMethod').value;
+                const withdrawPhone = document.getElementById('withdrawPhone').value;
+                
+                let isValid = true;
+
+                if (!amount || amount < 1) {
+                    this.showError('withdrawAmountError', 'Por favor, insira um valor válido.');
+                    isValid = false;
+                } else if (!this.validateWithdrawAmount(amount)) {
+                    isValid = false;
+                }
+
+                if (!withdrawPhone) {
+                    this.showError('withdrawPhoneError', 'Por favor, insira o número para receber o levantamento.');
+                    isValid = false;
+                } else if (!this.validatePhone(withdrawPhone)) {
+                    this.showError('withdrawPhoneError', 'Por favor, insira um número MZN válido.');
+                    isValid = false;
+                }
+
+                if (!isValid) return;
+
+                this.addTransaction(this.currentUser.phone, {
+                    type: 'withdraw',
+                    amount: amount,
+                    date: new Date().toISOString(),
+                    description: `Levantamento via ${withdrawMethod}`,
+                    withdrawMethod: withdrawMethod,
+                    withdrawPhone: withdrawPhone,
+                    status: 'pending',
+                    transactionId: 'W' + Date.now()
+                });
+
+                this.hideModal('withdrawModal');
+                this.showModal('successModal', 
+                    `Levantamento de ${amount.toFixed(2)} MT solicitado com sucesso!<br><br>
+                    <strong>Método:</strong> ${withdrawMethod}<br>
+                    <strong>Número de destino:</strong> +258 ${withdrawPhone}<br>
+                    <strong>Status:</strong> Em processamento<br><br>
+                    <em>O valor será transferido dentro de 24 horas.</em>`
+                );
+                this.updateDashboard();
+                
+                document.getElementById('withdrawAmount').value = '';
+            }
+
+            loadMiningMachines() {
+                const miningMachinesContainer = document.getElementById('miningMachines');
+                miningMachinesContainer.innerHTML = '';
+
+                this.miningMachines.forEach(machine => {
+                    const machineElement = document.createElement('div');
+                    machineElement.className = 'mining-machine';
+                    machineElement.innerHTML = `
+                        <div class="machine-header">
+                            <div class="machine-name">${machine.name}</div>
+                            <div class="machine-cost">${machine.cost} MT</div>
+                        </div>
+                        <div class="machine-details">
+                            <div class="machine-detail">
+                                <span>Retorno Total:</span>
+                                <span class="machine-profit">+${machine.return} MT</span>
+                            </div>
+                            <div class="machine-detail">
+                                <span>Lucro Diário:</span>
+                                <span>${machine.daily} MT</span>
+                            </div>
+                            <div class="machine-detail">
+                                <span>Duração:</span>
+                                <span>${machine.duration} dias</span>
+                            </div>
+                        </div>
+                        <div style="margin-top: 10px; font-size: 12px; color: #666;">${machine.description}</div>
+                    `;
+
+                    machineElement.addEventListener('click', () => {
+                        this.selectMiningMachine(machine);
+                    });
+
+                    miningMachinesContainer.appendChild(machineElement);
+                });
+            }
+
+            selectMiningMachine(machine) {
+                document.querySelectorAll('.mining-machine').forEach(el => {
+                    el.classList.remove('active');
+                });
+
+                event.currentTarget.classList.add('active');
+                this.selectedMachine = machine;
+
+                document.getElementById('selectedMachineName').textContent = machine.name;
+                document.getElementById('selectedMachineCost').textContent = machine.cost + ' MT';
+                document.getElementById('selectedMachineReturn').textContent = '+' + machine.return + ' MT';
+                document.getElementById('selectedMachineDaily').textContent = machine.daily + ' MT/dia';
+                document.getElementById('selectedMachineDuration').textContent = machine.duration + ' dias';
+
+                document.getElementById('selectedMachineInfo').style.display = 'block';
+            }
+
+            startMining() {
+                if (!this.selectedMachine) {
+                    this.showModal('successModal', 'Por favor, selecione uma máquina de mineração.');
+                    return;
+                }
+
+                const balance = this.getUserBalance(this.currentUser.phone);
+                if (balance < this.selectedMachine.cost) {
+                    this.showModal('successModal', 'Saldo insuficiente para investir nesta máquina.');
+                    return;
+                }
+
+                this.addTransaction(this.currentUser.phone, {
+                    type: 'mining_investment',
+                    amount: this.selectedMachine.cost,
+                    date: new Date().toISOString(),
+                    description: `Investimento em mineração - ${this.selectedMachine.name}`,
+                    machineName: this.selectedMachine.name,
+                    transactionId: 'MINING' + Date.now()
+                });
+
+                const miningData = {
+                    machineId: this.selectedMachine.id,
+                    machineName: this.selectedMachine.name,
+                    investment: this.selectedMachine.cost,
+                    totalReturn: this.selectedMachine.return,
+                    dailyProfit: this.selectedMachine.daily,
+                    duration: this.selectedMachine.duration,
+                    startDate: new Date().toISOString(),
+                    endDate: new Date(Date.now() + this.selectedMachine.duration * 24 * 60 * 60 * 1000).toISOString(),
+                    accumulatedProfit: 0,
+                    lastProfitDate: new Date().toISOString()
+                };
+
+                this.mining[this.currentUser.phone] = miningData;
+                localStorage.setItem('mzn_mining', JSON.stringify(this.mining));
+
+                this.hideModal('miningModal');
+                this.showModal('successModal', 
+                    `Mineração iniciada com sucesso!<br><br>
+                    <strong>Máquina:</strong> ${this.selectedMachine.name}<br>
+                    <strong>Investimento:</strong> ${this.selectedMachine.cost} MT<br>
+                    <strong>Retorno Total Esperado:</strong> +${this.selectedMachine.return} MT<br>
+                    <strong>Lucro Diário:</strong> ${this.selectedMachine.daily} MT<br>
+                    <strong>Duração:</strong> ${this.selectedMachine.duration} dias<br><br>
+                    <em>A mineração começará a gerar lucros a partir de amanhã.</em>`
+                );
+
+                this.updateDashboard();
+                this.updateMiningProgress();
+            }
+
+            updateMiningProgress() {
+                const activeMining = this.mining[this.currentUser.phone];
+                const container = document.getElementById('activeMiningContainer');
+
+                if (!activeMining) {
+                    container.style.display = 'none';
+                    return;
+                }
+
+                container.style.display = 'block';
+
+                const now = new Date();
+                const startDate = new Date(activeMining.startDate);
+                const endDate = new Date(activeMining.endDate);
+                const totalDuration = endDate - startDate;
+                const elapsed = now - startDate;
+                const progress = Math.min((elapsed / totalDuration) * 100, 100);
+
+                const daysElapsed = Math.floor(elapsed / (24 * 60 * 60 * 1000));
+                const expectedProfit = daysElapsed * activeMining.dailyProfit;
+                const actualProfit = Math.min(expectedProfit, activeMining.totalReturn);
+
+                if (actualProfit > activeMining.accumulatedProfit) {
+                    activeMining.accumulatedProfit = actualProfit;
+                    this.mining[this.currentUser.phone] = activeMining;
+                    localStorage.setItem('mzn_mining', JSON.stringify(this.mining));
+                }
+
+                document.getElementById('activeMachineName').textContent = activeMining.machineName;
+                document.getElementById('activeInvestment').textContent = activeMining.investment + ' MT';
+                document.getElementById('activeReturn').textContent = '+' + activeMining.totalReturn + ' MT';
+                document.getElementById('activeDuration').textContent = activeMining.duration + ' dias';
+                document.getElementById('miningProgressBar').style.width = progress + '%';
+                
+                const timeRemaining = endDate - now;
+                const daysRemaining = Math.ceil(timeRemaining / (24 * 60 * 60 * 1000));
+                document.getElementById('timeRemaining').textContent = daysRemaining + ' dias';
+                document.getElementById('dailyProfit').textContent = activeMining.dailyProfit + ' MT';
+                document.getElementById('accumulatedProfit').textContent = activeMining.accumulatedProfit + ' MT';
+
+                if (now >= endDate) {
+                    this.completeMining();
+                }
+            }
+
+            completeMining() {
+                const activeMining = this.mining[this.currentUser.phone];
+                if (!activeMining) return;
+
+                const finalProfit = activeMining.totalReturn;
+                this.addTransaction(this.currentUser.phone, {
+                    type: 'mining_profit',
+                    amount: finalProfit,
+                    date: new Date().toISOString(),
+                    description: `Lucro final de mineração - ${activeMining.machineName}`,
+                    machineName: activeMining.machineName,
+                    transactionId: 'MININGPROFIT' + Date.now()
+                });
+
+                delete this.mining[this.currentUser.phone];
+                localStorage.setItem('mzn_mining', JSON.stringify(this.mining));
+
+                this.showModal('successModal', 
+                    `Mineração concluída com sucesso!<br><br>
+                    <strong>Máquina:</strong> ${activeMining.machineName}<br>
+                    <strong>Investimento:</strong> ${activeMining.investment} MT<br>
+                    <strong>Lucro Total:</strong> +${finalProfit} MT<br>
+                    <strong>Retorno Total:</strong> ${(activeMining.investment + finalProfit)} MT<br><br>
+                    <em>O lucro foi adicionado ao seu saldo.</em>`
+                );
+
+                this.updateDashboard();
+            }
+
+            cancelMining() {
+                const activeMining = this.mining[this.currentUser.phone];
+                if (!activeMining) return;
+
+                const refundAmount = Math.floor(activeMining.investment * 0.5);
+                this.addTransaction(this.currentUser.phone, {
+                    type: 'mining_profit',
+                    amount: refundAmount,
+                    date: new Date().toISOString(),
+                    description: `Reembolso de mineração cancelada - ${activeMining.machineName}`,
+                    machineName: activeMining.machineName,
+                    transactionId: 'MININGREFUND' + Date.now()
+                });
+
+                delete this.mining[this.currentUser.phone];
+                localStorage.setItem('mzn_mining', JSON.stringify(this.mining));
+
+                this.showModal('successModal', 
+                    `Mineração cancelada!<br><br>
+                    <strong>Reembolso:</strong> ${refundAmount} MT (50% do investimento)<br>
+                    <strong>Máquina:</strong> ${activeMining.machineName}<br><br>
+                    <em>O valor do reembolso foi adicionado ao seu saldo.</em>`
+                );
+
+                this.updateDashboard();
+            }
+
+            copyReferralCode() {
+                const code = this.currentUser.referralCode;
+                navigator.clipboard.writeText(code).then(() => {
+                    this.showModal('successModal', 'Código de referência copiado para a área de transferência!');
+                });
+            }
+
+            copyReferralLink() {
+                const link = document.getElementById('referralLink').value;
+                navigator.clipboard.writeText(link).then(() => {
+                    this.showModal('successModal', 'Link de referência copiado para a área de transferência!');
+                });
+            }
+
+            shareWhatsApp() {
+                const message = document.getElementById('shareMessage').value;
+                const encodedMessage = encodeURIComponent(message);
+                const whatsappUrl = `https://wa.me/?text=${encodedMessage}`;
+                window.open(whatsappUrl, '_blank');
+            }
+
+            addTransaction(phone, transaction) {
+                if (!this.transactions[phone]) {
+                    this.transactions[phone] = [];
+                }
+                this.transactions[phone].push(transaction);
+                localStorage.setItem('mzn_transactions', JSON.stringify(this.transactions));
+            }
+
+            saveUsers() {
+                localStorage.setItem('mzn_users', JSON.stringify(this.users));
+            }
+
+            showModal(modalId, message = '') {
+                if (message) {
+                    document.getElementById('modalMessage').innerHTML = message;
+                }
+                document.getElementById(modalId).style.display = 'block';
+            }
+
+            hideModal(modalId) {
+                document.getElementById(modalId).style.display = 'none';
+            }
+
+            hideDepositModal() {
+                this.hideModal('depositModal');
+            }
+
+            hideWithdrawModal() {
+                this.hideModal('withdrawModal');
+            }
+
+            hideMiningModal() {
+                this.hideModal('miningModal');
+            }
+
+            hideReferralModal() {
+                this.hideModal('referralModal');
+            }
+
+            clearForm(formId) {
+                document.getElementById(formId).reset();
+                this.clearErrors();
+            }
+
+            logout() {
+                this.currentUser = null;
+                localStorage.removeItem('mzn_logged_in');
+                this.showAuth();
+                this.showModal('successModal', 'Sessão terminada com sucesso!');
+            }
+        }
+
+        // Inicializar a aplicação
+        const carteira = new CarteiraMZN();
+
+        // Funções globais para os botões
+        function showDepositModal() {
+            carteira.showDepositModal();
+        }
+
+        function showWithdrawModal() {
+            carteira.showWithdrawModal();
+        }
+
+        function showMiningModal() {
+            carteira.showMiningModal();
+        }
+
+        function showReferralModal() {
+            carteira.showReferralModal();
+        }
+
+        function showHistory() {
+            carteira.updateTransactionList();
+            carteira.showModal('successModal', 'Histórico atualizado!');
+        }
+
+        function hideDepositModal() {
+            carteira.hideDepositModal();
+        }
+
+        function hideWithdrawModal() {
+            carteira.hideWithdrawModal();
+        }
+
+        function hideMiningModal() {
+            carteira.hideMiningModal();
+        }
+
+        function hideReferralModal() {
+            carteira.hideReferralModal();
+        }
+
+        function hideModal(modalId) {
+            document.getElementById(modalId).style.display = 'none';
+        }
+
+        function processDeposit() {
+            carteira.processDeposit();
+        }
+
+        function processWithdraw() {
+            carteira.processWithdraw();
+        }
+
+        function startMining() {
+            carteira.startMining();
+        }
+
+        function cancelMining() {
+            carteira.cancelMining();
+        }
+
+        function logout() {
+            carteira.logout();
+        }
+
+        function copyReferralCode() {
+            carteira.copyReferralCode();
+        }
+
+        function copyCommercialCode() {
+            carteira.copyCommercialCode();
+        }
+
+        function copyReferralLink() {
+            carteira.copyReferralLink();
+        }
+
+        function shareWhatsApp() {
+            carteira.shareWhatsApp();
+        }
+
+        // Processar código de referência da URL
+        window.addEventListener('DOMContentLoaded', () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const refCode = urlParams.get('ref');
+            if (refCode) {
+                document.getElementById('referralCode').value = refCode;
+                carteira.validateReferralCode(refCode);
+            }
+        });
+    </script>
+</body>
+</html>
