@@ -1,1 +1,1 @@
-# amazon.money
+# amazon.cash
